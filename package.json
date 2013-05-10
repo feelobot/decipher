@@ -1,0 +1,16 @@
+{
+  "name": "decipher",
+  "subdomain": "feelobot-decipher",
+  "dependencies": {
+    "github": "0.1.*",
+    "commander": "1.*",
+    "request": "2.*"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "version": "0.0.0-5",
+  "engines": {
+    "node": "0.8.x"
+  }
+}
