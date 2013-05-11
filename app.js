@@ -32,8 +32,6 @@ if (program.ticket) {
             'sendImmediately' : true
         }
     };
-    var request = require('request');
-    //request.auth('username', 'password', false).get('http://some.server.com/');
     request(url, auth, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log(body) // 

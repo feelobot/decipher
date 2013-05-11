@@ -2,9 +2,9 @@
   "name": "decipher",
   "subdomain": "feelobot-decipher",
   "dependencies": {
-    "github": "0.1.*",
-    "commander": "1.*",
-    "request": "2.*"
+    "github": "*",
+    "commander": "*",
+    "request": "*"
   },
   "scripts": {
     "start": "node app.js"
