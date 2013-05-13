@@ -18,6 +18,12 @@ Given a github pull request number program responds with associated LightHouse t
     -p, --pull [number]        Get the Lighthouse Ticket # for the specified pull request
 ```
 ex. node app.js -U feelobot -P pass123 -p 2151
+To make this program easier to use setup an alias in your bash_profile like so:
+```
+alias p2l="node ~/Documents/code/decipher/app.js -U feelobot -P pass123 -p"
+alias l2p="node ~/Documents/code/decipher/app.js -U frodriguez@bleacherreport.com -P pass123 -t"
+```
+Note: for p2l you need to use your github credentials, for l2p you need to use your lighthouse credentials.
 
 # Todo:
 * Copy url to clipboard to paste into browser easily
