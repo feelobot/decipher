@@ -34,8 +34,8 @@ if (program.ticket) {
     };
     request(url, auth, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            var result = body.match(regex);
-            console.log(result[1]);
+            var pull = body.match(regex)[1];
+            console.log(githubBase + pull);
         }
         else console.log(response.statusCode + " Error for " + url)
     })
@@ -58,7 +58,8 @@ if (program.pull) {
             number: program.pull
         },
         function(err, res) {
-            console.log(res["body"].match(regex)[1])
+            var ticket = res["body"].match(regex)[1]
+            console.log(lhBase + ticket);
         }
     );
 }
