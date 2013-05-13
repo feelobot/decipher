@@ -34,7 +34,6 @@ if (program.ticket) {
     };
     request(url, auth, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body) // 
             var result = body.match(regex);
             console.log(result[1]);
         }
