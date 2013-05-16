@@ -27,7 +27,7 @@ if (program.ticket) {
     url =  lhBase + program.ticket;
     //var expressionString = "//a[contains(@href,'github.com')]";
     var expressionString = "//a[text()='/github/']/@href"
-    var regex = /https:\/\/github.com\/br\/breport\/issues\/([0-9]+)"/
+    var regex = /https:\/\/github.com\/br\/breport\/issues\/([0-9]+)/g
     auth = {
         'auth' : {
             'user' : program.username, 
@@ -37,10 +37,10 @@ if (program.ticket) {
     };
     request(url, auth, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            var pull = body.match(regex)[1];
-            console.log(githubBase + pull);
+            var pull = body.match(regex).pop();
+            console.log(pull);
             function puts(error, stdout, stderr) { sys.puts(stdout) }
-            exec("open " + githubBase + pull, puts);
+            exec("open " + pull, puts);
         }
         else console.log(response.statusCode + " Error for " + url)
     })
