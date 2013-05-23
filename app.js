@@ -3,6 +3,7 @@ var program = require('commander');
 var GitHubApi = require("github");
 var sys = require('sys');
 var exec = require('child_process').exec;
+var config = require('./config')
 
 var github = new GitHubApi({
     // required
@@ -13,25 +14,20 @@ var github = new GitHubApi({
 
 var githubBase = "https://github.com/br/breport/pull/"
 var lhBase = "https://bleacherreport.lighthouseapp.com/projects/6296/tickets/"
-
 program
     .version('0.0.1')
-    .option('-U, --username [username]', 'Username of Lighthouse or Github Account' )
-    .option('-P, --password [password]', 'Password of Lighthouse or Github Account' )
-    .option('-t, --ticket [number]', 'Get the last pull request for the specified ticket')
+    .option('-t, --ticket [number]', 'Get the las t pull request for the specified ticket')
     .option('-p, --pull [number]' , 'Get the Lighthouse Ticket # for the specified pull request')  
-    .option('-b, --branch', 'Output the branch info from pull request')
+    .option('-c, --checkout', 'Checkout the branch from pull request')
     .parse(process.argv);
 
 if (program.ticket) {
     url =  lhBase + program.ticket;
-    //var expressionString = "//a[contains(@href,'github.com')]";
-    var expressionString = "//a[text()='/github/']/@href"
     var regex = /https:\/\/github.com\/br\/breport\/issues\/([0-9]+)/g
     auth = {
         'auth' : {
-            'user' : program.username, 
-            'pass' : program.password, 
+            'user' : config.lighthouse_username, 
+            'pass' : config.lighthouse_pass, 
             'sendImmediately' : true
         }
     };
@@ -41,19 +37,39 @@ if (program.ticket) {
             console.log(pull);
             function puts(error, stdout, stderr) { sys.puts(stdout) }
             exec("open " + pull, puts);
+            var pullNumber = pull.slice(-4);
         }
         else console.log(response.statusCode + " Error for " + url)
-    })
+        github.authenticate({
+            type: "basic",
+            username: config.github_username,
+            password: config.github_pass
+        });
 
+        github.pullRequests.get({
+                user: "br",
+                repo: "breport",
+                number: pullNumber
+            },
+            function(err, res) {
+                var branch = res["base"]["ref"]//["master_branch"]
+                console.log(branch)
+                if (program.checkout) {
+                    function puts(error, stdout, stderr) { sys.puts(stdout) }
+                    exec("git co " + branch, puts);
+                    exec("git pull origin  " + branch, puts);
+                }
+            }
+        );
+    });
+    
 };
 if (program.pull) {
-    url = "https://github.com/br/breport/pull/" + program.pull;
-    var expressionString = '//a[contains("' + lhBase + '")][last()]';
     var regex = /https:\/\/bleacherreport.lighthouseapp.com\/projects\/6296\/tickets\/([0-9]+)/
     github.authenticate({
         type: "basic",
-        username: program.username,
-        password: program.password
+        username: github_username,
+        password: github_pass
     });
 
     github.pullRequests.get({
