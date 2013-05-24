@@ -34,7 +34,6 @@ if (program.ticket) {
     request(url, auth, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var pull = body.match(regex).pop();
-            console.log(pull);
             function puts(error, stdout, stderr) { sys.puts(stdout) }
             exec("open " + pull, puts);
             var pullNumber = pull.slice(-4);
@@ -53,11 +52,13 @@ if (program.ticket) {
             },
             function(err, res) {
                 var branch = res["base"]["ref"]//["master_branch"]
-                console.log(branch)
+                console.log()
+                
                 if (program.checkout) {
                     function puts(error, stdout, stderr) { sys.puts(stdout) }
                     exec("git co " + branch, puts);
                     exec("git pull origin  " + branch, puts);
+                    console.log(pull + "" + branch);
                 }
             }
         );
@@ -68,8 +69,8 @@ if (program.pull) {
     var regex = /https:\/\/bleacherreport.lighthouseapp.com\/projects\/6296\/tickets\/([0-9]+)/
     github.authenticate({
         type: "basic",
-        username: github_username,
-        password: github_pass
+        username: config.github_username,
+        password: config.github_pass
     });
 
     github.pullRequests.get({
