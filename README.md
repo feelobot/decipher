@@ -19,9 +19,11 @@ Given a github pull request number program responds with associated LightHouse t
     -c, --checkout         Checkout the branch from pull request
 
 ```
-ex. node app.js -U feelobot -P pass123 -p 2151
 To make this program easier to use setup an alias in your bash_profile like so:
 ```
 alias p2l="node ~/Documents/code/decipher/app.js -p"
 alias l2p="node ~/Documents/code/decipher/app.js -t"
 ```
+ex. l2p 11832
+https://github.com/br/breport/issues/2294
+on branch: master
